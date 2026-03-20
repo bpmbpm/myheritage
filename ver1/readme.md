@@ -2,7 +2,8 @@
 
 A full-featured, browser-based genealogy application inspired by [MyHeritage](https://www.myheritage.com).
 
-**Live demo (GitHub Pages):** `https://bpmbpm.github.io/myheritage/ver1/`
+**Live demo (GitHub Pages):**  
+RUN https://bpmbpm.github.io/myheritage/ver1/
 
 ---
 
