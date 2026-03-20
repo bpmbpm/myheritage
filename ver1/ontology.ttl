@@ -1,0 +1,382 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix bio:    <http://purl.org/vocab/bio/0.1/> .
+@prefix rel:    <http://purl.org/vocab/relationship/> .
+@prefix schema: <https://schema.org/> .
+@prefix wd:     <http://www.wikidata.org/entity/> .
+@prefix mhg:    <https://bpmbpm.github.io/myheritage/ontology#> .
+
+# =========================================================
+# MyHeritage Genealogy Ontology
+# Based on: FOAF, BIO, schema.org, Wikidata, GEDCOM concepts
+# Version: 1.0
+# =========================================================
+
+mhg: a owl:Ontology ;
+    rdfs:label "MyHeritage Genealogy Ontology"@en ;
+    rdfs:label "Онтология генеалогии MyHeritage"@ru ;
+    rdfs:comment "An ontology for representing genealogical data, based on FOAF, BIO, schema.org and GEDCOM standards."@en ;
+    rdfs:comment "Онтология для представления генеалогических данных, основанная на стандартах FOAF, BIO, schema.org и GEDCOM."@ru ;
+    owl:versionInfo "1.0" .
+
+# =========================================================
+# Classes
+# =========================================================
+
+mhg:Person a owl:Class ;
+    rdfs:subClassOf foaf:Person ;
+    rdfs:subClassOf schema:Person ;
+    rdfs:label "Person"@en ;
+    rdfs:label "Персона"@ru ;
+    rdfs:comment "A human being, living or deceased, in the family tree."@en ;
+    rdfs:comment "Человек (живой или умерший) в семейном дереве."@ru .
+
+mhg:Family a owl:Class ;
+    rdfs:label "Family"@en ;
+    rdfs:label "Семья"@ru ;
+    rdfs:comment "A family unit, typically consisting of spouses and their children."@en ;
+    rdfs:comment "Семейная единица, обычно состоящая из супругов и их детей."@ru .
+
+mhg:Event a owl:Class ;
+    rdfs:subClassOf bio:Event ;
+    rdfs:label "Life Event"@en ;
+    rdfs:label "Жизненное событие"@ru ;
+    rdfs:comment "A significant event in a person's life."@en ;
+    rdfs:comment "Значимое событие в жизни человека."@ru .
+
+mhg:Birth a owl:Class ;
+    rdfs:subClassOf mhg:Event ;
+    rdfs:subClassOf bio:Birth ;
+    rdfs:label "Birth"@en ;
+    rdfs:label "Рождение"@ru .
+
+mhg:Death a owl:Class ;
+    rdfs:subClassOf mhg:Event ;
+    rdfs:subClassOf bio:Death ;
+    rdfs:label "Death"@en ;
+    rdfs:label "Смерть"@ru .
+
+mhg:Marriage a owl:Class ;
+    rdfs:subClassOf mhg:Event ;
+    rdfs:subClassOf bio:Marriage ;
+    rdfs:label "Marriage"@en ;
+    rdfs:label "Бракосочетание"@ru .
+
+mhg:Divorce a owl:Class ;
+    rdfs:subClassOf mhg:Event ;
+    rdfs:label "Divorce"@en ;
+    rdfs:label "Развод"@ru .
+
+mhg:Document a owl:Class ;
+    rdfs:label "Document"@en ;
+    rdfs:label "Документ"@ru ;
+    rdfs:comment "A document or source supporting genealogical data."@en ;
+    rdfs:comment "Документ или источник, подтверждающий генеалогические данные."@ru .
+
+mhg:Place a owl:Class ;
+    rdfs:subClassOf schema:Place ;
+    rdfs:label "Place"@en ;
+    rdfs:label "Место"@ru .
+
+# =========================================================
+# Person Properties
+# =========================================================
+
+mhg:personId a owl:DatatypeProperty ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "Person ID"@en ;
+    rdfs:label "ID персоны"@ru ;
+    rdfs:comment "Unique identifier for a person."@en .
+
+mhg:firstName a owl:DatatypeProperty ;
+    rdfs:subPropertyOf foaf:firstName ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "First name"@en ;
+    rdfs:label "Имя"@ru .
+
+mhg:lastName a owl:DatatypeProperty ;
+    rdfs:subPropertyOf foaf:familyName ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "Last name"@en ;
+    rdfs:label "Фамилия"@ru .
+
+mhg:maidenName a owl:DatatypeProperty ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "Maiden name"@en ;
+    rdfs:label "Девичья фамилия"@ru .
+
+mhg:gender a owl:DatatypeProperty ;
+    rdfs:subPropertyOf foaf:gender ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "Gender"@en ;
+    rdfs:label "Пол"@ru ;
+    rdfs:comment "Values: male, female, other / мужской, женский, другой"@en .
+
+mhg:birthDate a owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:birthDate ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:date ;
+    rdfs:label "Birth date"@en ;
+    rdfs:label "Дата рождения"@ru .
+
+mhg:birthPlace a owl:ObjectProperty ;
+    rdfs:subPropertyOf schema:birthPlace ;
+    rdfs:domain mhg:Person ;
+    rdfs:range mhg:Place ;
+    rdfs:label "Birth place"@en ;
+    rdfs:label "Место рождения"@ru .
+
+mhg:deathDate a owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:deathDate ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:date ;
+    rdfs:label "Death date"@en ;
+    rdfs:label "Дата смерти"@ru .
+
+mhg:deathPlace a owl:ObjectProperty ;
+    rdfs:subPropertyOf schema:deathPlace ;
+    rdfs:domain mhg:Person ;
+    rdfs:range mhg:Place ;
+    rdfs:label "Death place"@en ;
+    rdfs:label "Место смерти"@ru .
+
+mhg:occupation a owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:hasOccupation ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "Occupation"@en ;
+    rdfs:label "Профессия"@ru .
+
+mhg:nationality a owl:DatatypeProperty ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "Nationality"@en ;
+    rdfs:label "Национальность"@ru .
+
+mhg:religion a owl:DatatypeProperty ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "Religion"@en ;
+    rdfs:label "Религия"@ru .
+
+mhg:education a owl:DatatypeProperty ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "Education"@en ;
+    rdfs:label "Образование"@ru .
+
+mhg:notes a owl:DatatypeProperty ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "Notes"@en ;
+    rdfs:label "Примечания"@ru .
+
+mhg:photoUrl a owl:DatatypeProperty ;
+    rdfs:domain mhg:Person ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "Photo URL"@en ;
+    rdfs:label "URL фотографии"@ru .
+
+# =========================================================
+# Family Relationships
+# =========================================================
+
+mhg:hasChild a owl:ObjectProperty ;
+    rdfs:subPropertyOf rel:parentOf ;
+    rdfs:domain mhg:Person ;
+    rdfs:range mhg:Person ;
+    rdfs:label "has child"@en ;
+    rdfs:label "имеет ребёнка"@ru ;
+    owl:inverseOf mhg:hasParent .
+
+mhg:hasParent a owl:ObjectProperty ;
+    rdfs:subPropertyOf rel:childOf ;
+    rdfs:domain mhg:Person ;
+    rdfs:range mhg:Person ;
+    rdfs:label "has parent"@en ;
+    rdfs:label "имеет родителя"@ru .
+
+mhg:hasFather a owl:ObjectProperty ;
+    rdfs:subPropertyOf mhg:hasParent ;
+    rdfs:domain mhg:Person ;
+    rdfs:range mhg:Person ;
+    rdfs:label "has father"@en ;
+    rdfs:label "имеет отца"@ru .
+
+mhg:hasMother a owl:ObjectProperty ;
+    rdfs:subPropertyOf mhg:hasParent ;
+    rdfs:domain mhg:Person ;
+    rdfs:range mhg:Person ;
+    rdfs:label "has mother"@en ;
+    rdfs:label "имеет мать"@ru .
+
+mhg:hasSpouse a owl:ObjectProperty ;
+    rdfs:subPropertyOf rel:spouseOf ;
+    rdfs:domain mhg:Person ;
+    rdfs:range mhg:Person ;
+    a owl:SymmetricProperty ;
+    rdfs:label "has spouse"@en ;
+    rdfs:label "имеет супруга"@ru .
+
+mhg:hasSibling a owl:ObjectProperty ;
+    rdfs:subPropertyOf rel:siblingOf ;
+    rdfs:domain mhg:Person ;
+    rdfs:range mhg:Person ;
+    a owl:SymmetricProperty ;
+    rdfs:label "has sibling"@en ;
+    rdfs:label "имеет брата/сестру"@ru .
+
+mhg:inFamily a owl:ObjectProperty ;
+    rdfs:domain mhg:Person ;
+    rdfs:range mhg:Family ;
+    rdfs:label "in family"@en ;
+    rdfs:label "в семье"@ru .
+
+mhg:familyMember a owl:ObjectProperty ;
+    rdfs:domain mhg:Family ;
+    rdfs:range mhg:Person ;
+    rdfs:label "family member"@en ;
+    rdfs:label "член семьи"@ru .
+
+mhg:familyId a owl:DatatypeProperty ;
+    rdfs:domain mhg:Family ;
+    rdfs:range xsd:string ;
+    rdfs:label "Family ID"@en ;
+    rdfs:label "ID семьи"@ru .
+
+mhg:marriageDate a owl:DatatypeProperty ;
+    rdfs:domain mhg:Family ;
+    rdfs:range xsd:date ;
+    rdfs:label "Marriage date"@en ;
+    rdfs:label "Дата свадьбы"@ru .
+
+mhg:marriagePlace a owl:ObjectProperty ;
+    rdfs:domain mhg:Family ;
+    rdfs:range mhg:Place ;
+    rdfs:label "Marriage place"@en ;
+    rdfs:label "Место свадьбы"@ru .
+
+mhg:divorceDate a owl:DatatypeProperty ;
+    rdfs:domain mhg:Family ;
+    rdfs:range xsd:date ;
+    rdfs:label "Divorce date"@en ;
+    rdfs:label "Дата развода"@ru .
+
+# =========================================================
+# Place Properties
+# =========================================================
+
+mhg:placeId a owl:DatatypeProperty ;
+    rdfs:domain mhg:Place ;
+    rdfs:range xsd:string ;
+    rdfs:label "Place ID"@en ;
+    rdfs:label "ID места"@ru .
+
+mhg:placeName a owl:DatatypeProperty ;
+    rdfs:domain mhg:Place ;
+    rdfs:range xsd:string ;
+    rdfs:label "Place name"@en ;
+    rdfs:label "Название места"@ru .
+
+mhg:country a owl:DatatypeProperty ;
+    rdfs:domain mhg:Place ;
+    rdfs:range xsd:string ;
+    rdfs:label "Country"@en ;
+    rdfs:label "Страна"@ru .
+
+mhg:city a owl:DatatypeProperty ;
+    rdfs:domain mhg:Place ;
+    rdfs:range xsd:string ;
+    rdfs:label "City"@en ;
+    rdfs:label "Город"@ru .
+
+mhg:latitude a owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:latitude ;
+    rdfs:domain mhg:Place ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "Latitude"@en ;
+    rdfs:label "Широта"@ru .
+
+mhg:longitude a owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:longitude ;
+    rdfs:domain mhg:Place ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "Longitude"@en ;
+    rdfs:label "Долгота"@ru .
+
+# =========================================================
+# Event Properties
+# =========================================================
+
+mhg:eventDate a owl:DatatypeProperty ;
+    rdfs:domain mhg:Event ;
+    rdfs:range xsd:date ;
+    rdfs:label "Event date"@en ;
+    rdfs:label "Дата события"@ru .
+
+mhg:eventPlace a owl:ObjectProperty ;
+    rdfs:domain mhg:Event ;
+    rdfs:range mhg:Place ;
+    rdfs:label "Event place"@en ;
+    rdfs:label "Место события"@ru .
+
+mhg:eventDescription a owl:DatatypeProperty ;
+    rdfs:domain mhg:Event ;
+    rdfs:range xsd:string ;
+    rdfs:label "Event description"@en ;
+    rdfs:label "Описание события"@ru .
+
+mhg:participant a owl:ObjectProperty ;
+    rdfs:domain mhg:Event ;
+    rdfs:range mhg:Person ;
+    rdfs:label "participant"@en ;
+    rdfs:label "участник"@ru .
+
+# =========================================================
+# Document Properties
+# =========================================================
+
+mhg:documentId a owl:DatatypeProperty ;
+    rdfs:domain mhg:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "Document ID"@en ;
+    rdfs:label "ID документа"@ru .
+
+mhg:documentTitle a owl:DatatypeProperty ;
+    rdfs:domain mhg:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "Document title"@en ;
+    rdfs:label "Название документа"@ru .
+
+mhg:documentType a owl:DatatypeProperty ;
+    rdfs:domain mhg:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "Document type"@en ;
+    rdfs:label "Тип документа"@ru ;
+    rdfs:comment "E.g.: birth certificate, passport, photo / Напр.: свидетельство о рождении, паспорт, фото"@en .
+
+mhg:documentDate a owl:DatatypeProperty ;
+    rdfs:domain mhg:Document ;
+    rdfs:range xsd:date ;
+    rdfs:label "Document date"@en ;
+    rdfs:label "Дата документа"@ru .
+
+mhg:documentUrl a owl:DatatypeProperty ;
+    rdfs:domain mhg:Document ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "Document URL"@en ;
+    rdfs:label "URL документа"@ru .
+
+mhg:relatedPerson a owl:ObjectProperty ;
+    rdfs:domain mhg:Document ;
+    rdfs:range mhg:Person ;
+    rdfs:label "related person"@en ;
+    rdfs:label "связанная персона"@ru .
